@@ -1,0 +1,16 @@
+transaction-service: 
+    role: only-producer
+    description: "Responsible for creation of transactions"
+    consumer: None
+	producer: transaction
+
+fraud-detection-service:
+    role: producer-consumer
+    description: "Responsible for fraud detection of incoming transactions"
+    consumer: transaction
+    producer: fraud (0/1), fraud-alert, transaction-saving
+
+alert-service:
+    description: "Responsible for creation and management of alerts"
+    role: only-consumer
+    consumer: fraud-alert

@@ -1,0 +1,12 @@
+name: fraud_detection
+dependencies: 
+  - python==3.10
+  - pandas
+  - scikit-learn
+  - numpy
+  - scipy
+  - pydantic
+  - pip
+  - pip: 
+    - confluent-kafka  
+    - requests

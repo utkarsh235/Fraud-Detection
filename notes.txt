@@ -1,0 +1,8 @@
+# To see the list of kafka topics 
+docker exec -it kafka kafka-topics --list --bootstrap-server localhost:9092
+
+# To see the description of a specific topic
+ocker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --describe --topic TOPIC_NAME
+
+# list items produced
+docker exec -it kafka kafka-console-consumer --bootstrap-server localhost:9092 --topic TOPIC_NAME --from-beginning
