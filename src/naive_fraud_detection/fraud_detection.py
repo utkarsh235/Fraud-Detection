@@ -1,4 +1,4 @@
-from ..dataclasses.transaction import Transaction
+from ..dataclass.transaction import Transaction
 
 class FraudDetection():
     def __init__(self, method, data):

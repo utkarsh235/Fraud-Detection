@@ -18,8 +18,8 @@ def delivery_report(err, msg):
 def get_transaction():
     transaction = {
         'transaction_id': str(uuid.uuid4()),
-        'amount': -500,
-        'currency': 'CHZ'
+        'amount': 10,
+        'currency': 'USD'
     }
 
     return json.dumps(transaction).encode('utf-8')
