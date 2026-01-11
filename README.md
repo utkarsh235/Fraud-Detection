@@ -7,3 +7,6 @@ Implement transaction generation, fraud detection and alert service in real time
 
 Phase 1 (Complete): 
 Integrate the system with Rule based fraud detection system. 
+
+Phase 2 (In Progress):
+Add Unit tests 
