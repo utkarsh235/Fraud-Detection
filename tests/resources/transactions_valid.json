@@ -1,0 +1,10 @@
+[
+  {
+    "transaction_id": "t1",
+    "amount": 50
+  },
+  {
+    "transaction_id": "t2",
+    "amount": 100000
+  }
+]

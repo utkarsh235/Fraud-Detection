@@ -1,0 +1,81 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Packaging / Build
+# =========================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# Test artifacts
+# =========================
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# IDEs / Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Data files (IMPORTANT)
+# =========================
+# Ignore generated datasets
+src/datasets/
+*.csv
+
+# =========================
+# Kafka / Runtime artifacts
+# =========================
+*.pid
+*.lock
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+
+# =========================
+# MyPy / Static typing
+# =========================
+.mypy_cache/
+
+# =========================
+# PyCharm
+# =========================
+*.iml
