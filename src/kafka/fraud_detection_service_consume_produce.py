@@ -1,7 +1,7 @@
 from confluent_kafka import Consumer, Producer
 import json
 import uuid
-from src.detect import detect
+from src.service.fraud_service import FraudService
 
 def initiate_consumer():
     consumer_config = {
@@ -22,6 +22,10 @@ def initiate_producer():
     producer = Producer(producer_config)
     return producer
 
+def initiate_fraud_detection_service():
+    service = FraudService('src/datasets/transactions.csv')
+    return service
+
 def delivery_report(err, msg):
     if err: 
         print('Delivery Report ERROR! -> ', err)
@@ -40,18 +44,16 @@ def fetch_transaction(consumer):
     print("New message RECEIVED: -> ", transaction)
     return transaction
 
-def isFraud(transaction): 
+def isFraud(transaction, fraud_service): 
     alert = {
         'transaction_id': transaction['transaction_id'],
         'fraud': False
     }
-    fraud_ids = detect([transaction])
+    fraud_ids = fraud_service.detect([transaction])
     if (fraud_ids):
         transaction_id = fraud_ids[0]
         alert["transaction_id"] = transaction_id
         alert['fraud'] = True
-    # if transaction['amount'] < 0:
-    #     alert['fraud'] = True
 
     return alert 
 
@@ -78,11 +80,12 @@ def sendAlert(producer, alert):
 def main():
     consumer = initiate_consumer()
     producer = initiate_producer()
+    fraud_service = initiate_fraud_detection_service()
     try: 
         while True: 
             transaction = fetch_transaction(consumer)
             if transaction:
-                response = isFraud(transaction=transaction)
+                response = isFraud(transaction=transaction, fraud_service=fraud_service)
                 if isAlert(response):
                     alert = generateAlert(response)
                     sendAlert(producer, alert)

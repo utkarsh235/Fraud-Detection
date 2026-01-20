@@ -1,5 +1,5 @@
 import json
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, Mock
 from src.kafka import fraud_detection_service_consume_produce
 
 @patch("src.kafka.fraud_detection_service_consume_produce.Consumer")
@@ -57,24 +57,52 @@ def test_fetch_transaction_none():
 
     assert result is None
 
-@patch("src.kafka.fraud_detection_service_consume_produce.detect")
-def test_isFraud_detects_fraud(mock_detect):
-    mock_detect.return_value = ["tx-1"]
 
-    transaction = {"transaction_id": "tx-1"}
-    alert = fraud_detection_service_consume_produce.isFraud(transaction)
+def test_isFraud_detects_fraud():
+    # GIVEN
+    fraud_service = Mock()
+    fraud_service.detect.return_value = ["tx-1"]
 
+    transaction = {
+        "transaction_id": "tx-1",
+        "amount": 1000,
+        "currency": "USD",
+    }
+
+    # WHEN
+    alert = fraud_detection_service_consume_produce.isFraud(
+        transaction,
+        fraud_service
+    )
+
+    # THEN
     assert alert["fraud"] is True
     assert alert["transaction_id"] == "tx-1"
 
-@patch("src.kafka.fraud_detection_service_consume_produce.detect")
-def test_isFraud_no_fraud(mock_detect):
-    mock_detect.return_value = []
+    fraud_service.detect.assert_called_once_with([transaction])
 
-    transaction = {"transaction_id": "tx-2"}
-    alert = fraud_detection_service_consume_produce.isFraud(transaction)
+def test_isFraud_no_fraud():
+    # GIVEN
+    fraud_service = Mock()
+    fraud_service.detect.return_value = []
 
+    transaction = {
+        "transaction_id": "tx-2",
+        "amount": 50,
+        "currency": "USD",
+    }
+
+    # WHEN
+    alert = fraud_detection_service_consume_produce.isFraud(
+        transaction,
+        fraud_service
+    )
+
+    # THEN
     assert alert["fraud"] is False
+    assert alert["transaction_id"] == "tx-2"
+
+    fraud_service.detect.assert_called_once_with([transaction])
 
 def test_isAlert_true():
     assert fraud_detection_service_consume_produce.isAlert({"fraud": True}) is True
