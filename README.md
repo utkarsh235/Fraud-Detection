@@ -12,4 +12,4 @@ Integrate the system with Rule based fraud detection system.
 Phase 2 (In Progress):
 - ✅ Add Unit tests 
 - ✅ Code Refactoring
-- ⚠️ Add more features
+- ⚠️ Add more features (User-id, Date of transaction, Time of transaction)
